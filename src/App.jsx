@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 
 // Components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
@@ -18,10 +18,11 @@ import Mains from "./pages/Mains";
 import Starters from "./pages/Starts";
 import FoodGallery from "./pages/FoodGalary";
 import Chefs from "./components/OurChefs";
-import About from "./components/About";
+import About from "./components/OurStory";
 import PrivacyPolicy from "./pages/Privacy";
 import TermsOfService from "./pages/Terms";
 import FAQ from "./pages/FAQ";
+import Footer from "./components/Footer";
 
 // Admin Pages
 import Login from "./Admin/Login.jsx";

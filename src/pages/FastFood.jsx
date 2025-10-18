@@ -1,364 +1,182 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import FastFoodBanner from "../assets/FastFoods/Banner.jpg";
-import Beefburger from "../assets/Backgrounds/Burger.jpg";
-import Sandwitch from "../assets/FastFoods/Sandwitch.jpg";
-import ChesseBurger from "../assets/FastFoods/CheeseBurger.jpg";
-import PotWings from "../assets/FastFoods/Potwings.jpg";
-import Wings from "../assets/FastFoods/Wingis.jpg";
-import Fries from "../assets/FastFoods/Fries.jpg";
-import Rings from "../assets/FastFoods/Rings.jpg";
 
-const menuItems = [
-  {
-    image: Beefburger,
-    name: 'Classic Beef Burger',
-    price: 12.99,
-    popular: true,
-    description: 'Juicy beef patty, lettuce, tomato, onion, pickles, special sauce',
-    chef: 'Chef Mike Thompson',
-  },
-  {
-    image: Sandwitch,
-    name: 'Crispy Chicken Sandwich',
-    price: 13.99,
-    popular: false,
-    description: 'Breaded chicken breast, coleslaw, spicy mayo, brioche bun',
-    chef: 'Chef Sarah Kim',
-  },
-  {
-    image: ChesseBurger,
-    name: 'BBQ Bacon Cheeseburger',
-    price: 16.99,
-    popular: true,
-    description: 'Double beef patty, bacon, cheddar cheese, BBQ sauce, onion rings',
-    chef: 'Chef Mike Thompson',
-  },
-];
-
-const friedChickenItems = [
-  {
-    image: PotWings,
-    name: '8-Piece Family Bucket',
-    price: 24.99,
-    popular: true,
-    description: 'Mixed pieces of our signature crispy fried chicken',
-    chef: 'Chef Sarah Kim',
-  },
-  {
-    image: Wings,
-    name: 'Spicy Chicken Wings (12pc)',
-    price: 15.99,
-    popular: false,
-    description: 'Buffalo-style wings with your choice of sauce',
-    chef: 'Chef Sarah Kim',
-  },
-];
-
-const sidesItems = [
-  {
-    image: Fries,
-    name: 'Loaded Cheese Fries',
-    price: 8.99,
-    popular: true,
-    description: 'Crispy fries topped with melted cheese, bacon bits, green onions',
-    chef: 'Chef Mike Thompson',
-  },
-  {
-    image: Rings,
-    name: 'Onion Rings',
-    price: 6.99,
-    popular: false,
-    description: 'Thick-cut onions in crispy golden batter',
-    chef: 'Chef Mike Thompson',
-  },
-];
-
-const menuCategories = [
-  {
-    image: 'https://i.imgur.com/4f1bf0.jpg',
-    category: 'Fast Food Classics',
-    description: 'Comfort food favorites and quick bites',
-    dishes: 15,
-    priceRange: '$8 - $18',
-  },
-  {
-    image: 'https://i.imgur.com/4f1bf0.jpg',
-    category: 'Casual Dining',
-    description: 'Hearty meals perfect for family gatherings',
-    dishes: 24,
-    priceRange: '$15 - $32',
-  },
-  {
-    image: 'https://i.imgur.com/4f1bf0.jpg',
-    category: 'Café & Bakery',
-    description: 'Artisan coffee, pastries and light meals',
-    dishes: 18,
-    priceRange: '$4 - $16',
-  },
-];
-
-const signatureSpecials = [
-  {
-    image: 'https://i.imgur.com/4f7288.jpg',
-    name: 'Truffle Ribeye Steak',
-    price: 48,
-    description: 'Premium 16oz ribeye with black truffle sauce, roasted vegetables, and garlic mashed potatoes.',
-    chef: 'Executive Chef Marcus Rodriguez',
-  },
-  {
-    image: 'https://i.imgur.com/4f7288.jpg',
-    name: 'Lobster Risotto',
-    price: 36,
-    description: 'Creamy arborio rice with fresh Maine lobster, saffron, and microgreens.',
-    chef: 'Sous Chef Isabella Chen',
-  },
-];
-
-const services = [
-  {
-    title: 'Lightning Fast',
-    description: 'Average delivery time under 20 minutes for most orders',
-    icon: '⚡',
-  },
-  {
-    title: 'Best Prices',
-    description: 'Same prices as in-store with exclusive app discounts',
-    icon: '💰',
-  },
-  {
-    title: 'Quality Guaranteed',
-    description: 'Fresh food guarantee or your money back',
-    icon: '🛡️',
-  },
-  {
-    title: 'Easy Ordering',
-    description: 'Order with just a few taps on your phone',
-    icon: '📱',
-  },
-];
+// Define subcategory IDs for Fast Food (based on provided code)
+const SUBCATEGORY_IDS = {
+  BURGERS_SANDWICHES: 1,
+  FRIED_CHICKEN: 2,
+  SIDES: 3,
+};
 
 const FastFoodHero = () => {
   return (
     <div
       className="relative w-full h-screen bg-cover bg-center"
-      style={{ 
-        backgroundImage: `url(${FastFoodBanner})`
+      style={{
+        backgroundImage: `url(${FastFoodBanner || "https://via.placeholder.com/1700x400"})`,
       }}
     >
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-24 text-white text-center bg-black bg-opacity-30 rounded-lg p-6">
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight text-shadow">
-          Fast Food <br />
-          <span className="text-red-500">Chains</span>
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-24 text-white text-center">
+        <h1 className="text-4xl md:text-6xl font-bold leading-tight font-serif text-white">
+          Fast Food
         </h1>
-        <p className="mt-4 max-w-lg text-base md:text-lg text-shadow">
+        <p className="mt-4 max-w-lg text-base md:text-lg font-sans text-gray-200">
           Quick, delicious, and convenient. Order from your favorite fast food chains with lightning-fast delivery.
         </p>
         <div className="mt-8 flex space-x-4">
-          <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition duration-300">
+          <a
+            href="https://wa.me/+YOUR_PHONE_NUMBER?text=Hi%20Maison%20Ember,%20I'd%20like%20to%20order%20fast%20food!"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-[#E55D3A] text-white font-semibold rounded-md hover:bg-[#c94b2f] transition duration-300 font-sans"
+          >
             Order Now
-          </button>
+          </a>
         </div>
       </div>
     </div>
   );
 };
 
-const CulinaryHero = () => {
+const MenuCard = ({ item }) => {
   return (
-    <div
-      className="relative w-full h-screen bg-cover bg-center"
-      style={{ backgroundImage: 'url(https://i.imgur.com/4f1450.jpg)' }}
-    >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative z-10 flex flex-col items-start justify-center h-full px-6 md:px-24 text-white">
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-          Culinary Excellence <br />
-          <span className="text-orange-500">Awaits You</span>
-        </h1>
-        <p className="mt-4 max-w-lg text-base md:text-lg">
-          Experience our chef's masterpieces across diverse cuisines. From signature specialties to comfort classics, every dish tells a story of passion and perfection.
-        </p>
-        <div className="mt-8 flex space-x-4">
-          <button className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition duration-300">
-            View Our Menu
-          </button>
-          <button className="px-6 py-3 border border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition duration-300">
-            Make Reservation
-          </button>
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+      <div className="relative">
+        <img
+          src={item.image_url || "https://via.placeholder.com/150?text=No+Image"}
+          alt={item.name}
+          className="w-full h-64 object-cover"
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/150?text=No+Image";
+            console.error(`Failed to load image: ${item.image_url}`);
+          }}
+        />
+        {item.popular && (
+          <div className="absolute top-2 left-2 bg-[#E55D3A] text-white text-xs font-semibold px-2 py-1 rounded-full">
+            Popular
+          </div>
+        )}
+        <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-sm font-bold px-3 py-1 rounded-full">
+          ₹{new Intl.NumberFormat("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(item.price)}
         </div>
       </div>
-    </div>
-  );
-};
-
-const BurgersAndSandwiches = () => {
-  return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Burgers & Sandwiches</h2>
-      </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {menuItems.map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="relative">
-              <img src={item.image} alt={item.name} className="w-full h-64 object-cover" />
-              {item.popular && (
-                <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                  Popular
-                </div>
-              )}
-              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-sm font-bold px-3 py-1 rounded-full">
-                ${item.price.toFixed(2)}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
-              <p className="mt-2 text-gray-600 text-sm">{item.description}</p>
-              <p className="mt-4 text-xs text-gray-500">{item.chef}</p>
-              <button className="mt-6 w-full py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition duration-300">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-800 font-sans">{item.name}</h3>
+        <p className="mt-2 text-gray-600 text-sm font-sans">{item.description || "No description available"}</p>
+        <p className="mt-4 text-xs text-gray-500 font-sans">{item.chef || "N/A"}</p>
+        <a
+          href={`https://wa.me/+YOUR_PHONE_NUMBER?text=Hi%20Maison%20Ember,%20I'd%20like%20to%20order%20${encodeURIComponent(item.name)}!`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 w-full py-3 bg-[#E55D3A] text-white font-semibold rounded-md hover:bg-[#c94b2f] transition duration-300 font-sans block text-center"
+        >
+          Order Now
+        </a>
       </div>
     </div>
   );
 };
 
-const FriedChicken = () => {
+const BurgersAndSandwiches = ({ items }) => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Fried Chicken</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Burgers & Sandwiches</h2>
+        <p className="mt-2 text-gray-600 font-sans">Juicy and flavorful quick bites</p>
       </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {friedChickenItems.map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="relative">
-              <img src={item.image} alt={item.name} className="w-full h-64 object-cover" />
-              {item.popular && (
-                <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                  Popular
-                </div>
-              )}
-              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-sm font-bold px-3 py-1 rounded-full">
-                ${item.price.toFixed(2)}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
-              <p className="mt-2 text-gray-600 text-sm">{item.description}</p>
-              <p className="mt-4 text-xs text-gray-500">{item.chef}</p>
-              <button className="mt-6 w-full py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition duration-300">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-center text-gray-600 font-sans">No items available in this category</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const Sides = () => {
+const FriedChicken = ({ items }) => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Sides</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Fried Chicken</h2>
+        <p className="mt-2 text-gray-600 font-sans">Crispy and delicious comfort food</p>
       </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {sidesItems.map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="relative">
-              <img src={item.image} alt={item.name} className="w-full h-64 object-cover" />
-              {item.popular && (
-                <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                  Popular
-                </div>
-              )}
-              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-sm font-bold px-3 py-1 rounded-full">
-                ${item.price.toFixed(2)}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
-              <p className="mt-2 text-gray-600 text-sm">{item.description}</p>
-              <p className="mt-4 text-xs text-gray-500">{item.chef}</p>
-              <button className="mt-6 w-full py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition duration-300">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-center text-gray-600 font-sans">No items available in this category</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const MenuSection = () => {
+const Sides = ({ items }) => {
   return (
-    <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Our Menu Categories</h2>
-        <p className="mt-2 text-gray-600">
-          Explore our diverse selection of carefully crafted dishes across different dining styles
-        </p>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Sides</h2>
+        <p className="mt-2 text-gray-600 font-sans">Perfect complements to your meal</p>
       </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {menuCategories.map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="relative">
-              <img src={item.image} alt={item.category} className="w-full h-64 object-cover" />
-              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                {item.dishes} dishes
-              </div>
-              <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white text-sm font-semibold px-2 py-1 rounded-full">
-                {item.priceRange}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800">{item.category}</h3>
-              <p className="mt-2 text-gray-600">{item.description}</p>
-              <a
-                href="#"
-                className="mt-4 inline-flex items-center text-orange-500 hover:text-orange-600 transition duration-300"
-              >
-                View Menu
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ml-2 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-center text-gray-600 font-sans">No items available in this category</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 const FastFoodServices = () => {
+  const services = [
+    {
+      title: "Lightning Fast",
+      description: "Average delivery time under 20 minutes for most orders",
+      icon: "⚡",
+    },
+    {
+      title: "Best Prices",
+      description: "Same prices as in-store with exclusive app discounts",
+      icon: "💰",
+    },
+    {
+      title: "Quality Guaranteed",
+      description: "Fresh food guarantee or your money back",
+      icon: "🛡️",
+    },
+    {
+      title: "Easy Ordering",
+      description: "Order with just a few taps on your phone",
+      icon: "📱",
+    },
+  ];
+
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Why Choose Fast Food Delivery?</h2>
-        <p className="mt-2 text-gray-600">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Why Choose Fast Food Delivery?</h2>
+        <p className="mt-2 text-gray-600 font-sans">
           Get your favorite fast food delivered with unmatched speed and convenience
         </p>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
-            <div key={index} className="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-sm">
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-red-100 text-red-500 text-3xl">
-                {service.icon === '⚡' && (
+            <div key={index} className="flex flex-col items-center p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#E55D3A]/10 text-[#E55D3A] text-3xl">
+                {service.icon === "⚡" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-red-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -367,10 +185,10 @@ const FastFoodServices = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 )}
-                {service.icon === '💰' && (
+                {service.icon === "💰" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-red-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -383,10 +201,10 @@ const FastFoodServices = () => {
                     />
                   </svg>
                 )}
-                {service.icon === '🛡️' && (
+                {service.icon === "🛡️" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-red-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -399,10 +217,10 @@ const FastFoodServices = () => {
                     />
                   </svg>
                 )}
-                {service.icon === '📱' && (
+                {service.icon === "📱" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-red-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -416,8 +234,8 @@ const FastFoodServices = () => {
                   </svg>
                 )}
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-gray-800">{service.title}</h3>
-              <p className="mt-2 text-gray-600 text-center">{service.description}</p>
+              <h3 className="mt-4 text-xl font-semibold text-gray-800 font-sans">{service.title}</h3>
+              <p className="mt-2 text-gray-600 text-center font-sans">{service.description}</p>
             </div>
           ))}
         </div>
@@ -428,31 +246,86 @@ const FastFoodServices = () => {
 
 const CallToAction = () => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto text-center p-8 rounded-lg shadow-md bg-red-50">
-        <h2 className="text-3xl font-bold text-gray-800">Ready for Fast Food?</h2>
-        <p className="mt-4 text-gray-600">
-          Download our app and get your first fast food order with free delivery!
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto text-center p-8 rounded-lg shadow-sm bg-white border border-gray-100">
+        <h2 className="text-3xl font-bold text-gray-800 font-serif">Ready for Fast Food?</h2>
+        <p className="mt-4 text-gray-600 font-sans">
+          Order from our fast food collection and enjoy quick, delicious meals delivered to your door!
         </p>
-        <button className="mt-6 px-8 py-3 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 transition duration-300">
+        <a
+          href="https://wa.me/+YOUR_PHONE_NUMBER?text=Hi%20Maison%20Ember,%20I'd%20like%20to%20order%20fast%20food!"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 px-8 py-3 bg-[#E55D3A] text-white font-semibold rounded-md hover:bg-[#c94b2f] transition duration-300 font-sans inline-block"
+        >
           Start Ordering
-        </button>
+        </a>
       </div>
     </div>
   );
 };
 
-const App = () => {
+const FastFood = () => {
+  const [burgersAndSandwichesItems, setBurgersAndSandwichesItems] = useState([]);
+  const [friedChickenItems, setFriedChickenItems] = useState([]);
+  const [sidesItems, setSidesItems] = useState([]);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchMenuItems = async () => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const res = await fetch("http://localhost/food_and_restaurant/get_menu_items.php?category_id=1", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) throw new Error(`Network response was not ok: ${res.status}`);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) {
+        setBurgersAndSandwichesItems(data.data.filter(item => item.sub_category_id === SUBCATEGORY_IDS.BURGERS_SANDWICHES || item.sub_category_id === "1"));
+        setFriedChickenItems(data.data.filter(item => item.sub_category_id === SUBCATEGORY_IDS.FRIED_CHICKEN || item.sub_category_id === "2"));
+        setSidesItems(data.data.filter(item => item.sub_category_id === SUBCATEGORY_IDS.SIDES || item.sub_category_id === "3"));
+      } else {
+        setError(data.message || "⚠️ Could not fetch menu items.");
+        setBurgersAndSandwichesItems([]);
+        setFriedChickenItems([]);
+        setSidesItems([]);
+      }
+    } catch (e) {
+      setError("⚠️ Could not fetch menu items: " + e.message);
+      setBurgersAndSandwichesItems([]);
+      setFriedChickenItems([]);
+      setSidesItems([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
+
   return (
-    <div>
+    <div className="bg-[#fcf8f3]">
+      {error && (
+        <div className="mb-6 p-4 rounded-lg bg-red-200 text-red-800 border-2 border-red-400 font-medium text-center font-sans">
+          {error}
+        </div>
+      )}
+      {isLoading && (
+        <div className="text-center py-12">
+          <p className="text-gray-600 font-sans">Loading fast food items...</p>
+        </div>
+      )}
       <FastFoodHero />
-      <BurgersAndSandwiches />
-      <FriedChicken />
-      <Sides />
+      <BurgersAndSandwiches items={burgersAndSandwichesItems} />
+      <FriedChicken items={friedChickenItems} />
+      <Sides items={sidesItems} />
       <FastFoodServices />
       <CallToAction />
     </div>
   );
 };
 
-export default App;
+export default FastFood;

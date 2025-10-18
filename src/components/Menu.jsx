@@ -1,90 +1,107 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import FastFood from "../assets/Foods/Food1.jpg";
-import CasualDining from "../assets/Foods/Spagati.jpg";
-import Cafe from "../assets/Foods/Bakery.jpg";
+import Menu1 from "../assets/Menu/Menu1.jpg";
+import Menu2 from "../assets/Menu/Menu2.jpg";
+import Menu3 from "../assets/Menu/Menu3.jpg";
 
-const menuCategories = [
-  {
-    image: FastFood,
-    category: 'Fast Food Classics',
-    description: 'Comfort food favorites and quick bites',
-    dishes: 15,
-    priceRange: '$8 - $18',
-    path: '/fast-food',
-  },
-  {
-    image: CasualDining,
-    category: 'Casual Dining',
-    description: 'Hearty meals perfect for family gatherings',
-    dishes: 24,
-    priceRange: '$15 - $32',
-    path: '/casual-dining',
-  },
-  {
-    image: Cafe,
-    category: 'Café & Bakery',
-    description: 'Artisan coffee, pastries and light meals',
-    dishes: 18,
-    priceRange: '$4 - $16',
-    path: '/cafes-bakeries',
-  },
-];
-
-const MenuSection = () => {
+// Card component for a single dish
+const DishCard = ({ tag, title, price, description, imageUrl }) => {
   return (
-    <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-10">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 font-josefin tracking-wide">Our Menu Categories</h2>
-        <p className="mt-2 text-gray-600 text-lg font-lora leading-relaxed">
-          Explore our diverse selection of carefully crafted dishes across different dining styles
-        </p>
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+      {/* Image Container with Tag */}
+      <div className="relative h-64">
+        <img
+          src={imageUrl}
+          alt={`Image of ${title}`}
+          className="h-full w-full object-cover"
+        />
+        {/* Dark overlay for better tag contrast */}
+        <div className="absolute inset-0 bg-black bg-opacity-10"></div>
+        
+        {/* Tag */}
+        <span className="absolute top-4 left-4 inline-flex items-center px-3 py-1 text-sm font-medium rounded-full backdrop-blur-sm bg-black/50 text-white uppercase tracking-wider">
+          {tag}
+        </span>
       </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {menuCategories.map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="relative">
-              <img
-                src={item.image}
-                alt={item.category}
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-sm font-lora font-semibold px-2 py-1 rounded-full">
-                {item.dishes} dishes
-              </div>
-              <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white text-sm font-lora font-semibold px-2 py-1 rounded-full">
-                {item.priceRange}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-800 font-josefin tracking-wide">{item.category}</h3>
-              <p className="mt-2 text-gray-600 text-lg font-lora leading-relaxed">{item.description}</p>
-              <Link
-                to={item.path}
-                className="mt-4 inline-flex items-center text-orange-500 hover:text-orange-600 text-base font-lora transition duration-300"
-              >
-                View Menu
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ml-2 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        ))}
+
+      {/* Text Content */}
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-2">
+          {/* Dish Title */}
+          <h3 className="text-xl font-serif text-gray-800 pr-2 leading-snug">
+            {title}
+          </h3>
+          {/* Price Bubble */}
+          <span className="flex-shrink-0 px-4 py-1.5 text-sm font-medium text-[#C94B2F] bg-[#f8e8e3] rounded-full">
+            ${price}
+          </span>
+        </div>
+        
+        {/* Dish Description */}
+        <p className="text-sm text-gray-600 mt-3 font-light">
+          {description}
+        </p>
       </div>
     </div>
   );
 };
 
-export default MenuSection;
+const SignatureDishesSection = () => {
+  const dishes = [
+    {
+      tag: "Northwest Waters",
+      title: "Cedar-Smoked King Salmon",
+      price: 38,
+      description: "Maple miso glaze, charred citrus, preserved fennel, and smoked roe served tableside under a glass dome of cedar vapors.",
+      imageUrl: Menu1, // Use imported Menu1
+    },
+    {
+      tag: "Chef's Signature",
+      title: "Ember-Fired Dry-Aged Ribeye",
+      price: 62,
+      description: "45-day dry-aged ribeye kissed by flame, ember potatoes, bone marrow sabayon, and fire-forged herb oil.",
+      imageUrl: Menu2, // Use imported Menu2
+    },
+    {
+      tag: "Garden Harvest",
+      title: "Heirloom Carrot Tart",
+      price: 24,
+      description: "Hazelnut pâté brisée, smoked honey custard, carrot tops, and bergamot preserved petals finished with citrus chantilly.",
+      imageUrl: Menu3, // Use imported Menu3
+    },
+  ];
+
+  return (
+    <section className="bg-[#fcf8f3] py-20 sm:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Content */}
+        <div className="max-w-3xl mb-12">
+          <h2 className="text-sm font-medium tracking-widest uppercase text-[#C94B2F] mb-2">
+            Signature Dishes
+          </h2>
+          <h1 className="text-5xl font-serif text-gray-800 mb-6 leading-tight">
+            Fire-forged plates designed for savoring
+          </h1>
+          <p className="text-lg text-gray-600 font-light">
+            Our menu changes with the tide and the harvest. These guest favorites capture the spirit of Maison Ember—elegant plates with embers at their core.
+          </p>
+        </div>
+
+        {/* Dishes Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {dishes.map((dish, index) => (
+            <DishCard
+              key={index}
+              tag={dish.tag}
+              title={dish.title}
+              price={dish.price}
+              description={dish.description}
+              imageUrl={dish.imageUrl}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default SignatureDishesSection;

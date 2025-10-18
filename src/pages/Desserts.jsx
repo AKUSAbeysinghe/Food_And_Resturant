@@ -1,219 +1,38 @@
-import React, { useState } from 'react';
-import Beefburger from "../assets/Backgrounds/Burger.jpg";
-import DiningBanner from "../assets/Dining/Dessert.jpg";
+import React, { useState, useEffect } from "react";
+import DessertBanner from "../assets/Dining/Dessert.jpg";
 
-import Cake1 from "../assets/Deserts/Cake1.jpg";
-import Trt from "../assets/Deserts/tart1.jpg";
-import Vanila from "../assets/Deserts/Vanila1.jpg";
-import Sorbort from "../assets/Deserts/Pear.jpg";
-import Icecream from "../assets/Deserts/Icecream.jpg";
-import Pudding from "../assets/Deserts/Puding.jpg";
-import Pudding2 from "../assets/Deserts/Pudding2.jpg";
-// import Fries from "../assets/FastFoods/Fries.jpg";
-// import Rings from "../assets/FastFoods/Rings.jpg";
-
-const menuItems = [
-  {
-    image: Cake1,
-    name: 'Chocolate Lava Cake',
-    price: 8.99,
-    popular: true,
-    description: 'Warm chocolate cake with a molten center, served with vanilla ice cream',
-    chef: 'Chef Sophie Laurent',
-  },
-  {
-    image: Trt,
-    name: 'Fruit Tart',
-    price: 7.99,
-    popular: false,
-    description: 'Crisp pastry filled with fresh fruit and creamy custard',
-    chef: 'Chef Sophie Laurent',
-  },
-];
-
-const friedChickenItems = [
-  {
-    image: Vanila,
-    name: 'Vanilla Bean Ice Cream',
-    price: 6.99,
-    popular: true,
-    description: 'Rich, creamy vanilla ice cream made with real Madagascar vanilla',
-    chef: 'Chef Isabella Chen',
-  },
-  {
-    image: Sorbort,
-    name: 'Mango Sorbet',
-    price: 5.99,
-    popular: true,
-    description: 'Refreshing mango sorbet with a burst of tropical flavor',
-    chef: 'Chef Isabella Chen',
-  },
-  {
-    image: Icecream,
-    name: 'Chocolate Hazelnut Gelato',
-    price: 7.49,
-    popular: false,
-    description: 'Creamy gelato with roasted hazelnuts and rich chocolate swirls',
-    chef: 'Chef Maria Santos',
-  },
-];
-
-const sidesItems = [
-  {
-    image: Pudding,
-    name: 'Crème Brûlée',
-    price: 9.99,
-    popular: true,
-    description: 'Silky vanilla custard with a caramelized sugar crust',
-    chef: 'Chef Antonio Rivera',
-  },
-  {
-    image: Pudding2,
-    name: 'Bread Pudding',
-    price: 8.49,
-    popular: false,
-    description: 'Warm bread pudding with bourbon sauce and whipped cream',
-    chef: 'Chef Antonio Rivera',
-  },
-];
-
-const beveragesItems = [
-  {
-    image: 'https://via.placeholder.com/300',
-    name: 'Iced Coffee',
-    price: 4.99,
-    popular: true,
-    description: 'Chilled coffee with a hint of vanilla and cream',
-    chef: 'Chef Isabella Chen',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    name: 'Lemonade',
-    price: 3.99,
-    popular: false,
-    description: 'Freshly squeezed lemonade with a touch of mint',
-    chef: 'Chef Isabella Chen',
-  },
-];
-
-const dessertsItems = [
-  {
-    image: 'https://via.placeholder.com/300',
-    name: 'Chocolate Lava Cake',
-    price: 7.99,
-    popular: true,
-    description: 'Warm chocolate cake with molten center and vanilla ice cream',
-    chef: 'Chef Sophie Laurent',
-  },
-  {
-    image: 'https://via.placeholder.com/300',
-    name: 'Fruit Tart',
-    price: 6.99,
-    popular: false,
-    description: 'Crisp pastry filled with fresh fruit and custard',
-    chef: 'Chef Sophie Laurent',
-  },
-];
-
-const menuCategories = [
-  {
-    image: 'https://i.imgur.com/4f1bf0.jpg',
-    category: 'Desserts',
-    description: 'Explore our delightful selection of sweet treats designed to bring joy to every bite',
-    dishes: 7, // Cakes & Pastries (2), Ice Creams & Sorbets (3), Puddings & Custards (2)
-    priceRange: '$5.99 - $9.99', // Matches new dessert item prices
-  },
-];
-
-const signatureSpecials = [
-  {
-    image: 'https://i.imgur.com/4f7288.jpg',
-    name: 'Truffle Ribeye Steak',
-    price: 48,
-    description: 'Premium 16oz ribeye with black truffle sauce, roasted vegetables, and garlic mashed potatoes.',
-    chef: 'Executive Chef Marcus Rodriguez',
-  },
-  {
-    image: 'https://i.imgur.com/4f7288.jpg',
-    name: 'Lobster Risotto',
-    price: 36,
-    description: 'Creamy arborio rice with fresh Maine lobster, saffron, and microgreens.',
-    chef: 'Sous Chef Isabella Chen',
-  },
-];
-
-const services = [
-  {
-    title: 'Artisanal Craftsmanship',
-    description: 'Handcrafted desserts made with premium ingredients',
-    icon: '⚡',
-  },
-  {
-    title: 'Sweet Variety',
-    description: 'Options for every craving, from creamy to fruity',
-    icon: '💰',
-  },
-  {
-    title: 'Perfect for Sharing',
-    description: 'Ideal for gatherings, celebrations, or solo indulgence',
-    icon: '🛡️',
-  },
-  {
-    title: 'Quick Treats',
-    description: 'Fast delivery to satisfy your sweet tooth in no time',
-    icon: '📱',
-  },
-];
+// Define subcategory IDs for Desserts (based on provided code)
+const SUBCATEGORY_IDS = {
+  CAKES_PASTRIES: 13,
+  ICE_CREAMS_SORBETS: 14,
+  PUDDINGS_CUSTARDS: 15,
+};
 
 const FastFoodHero = () => {
   return (
     <div
       className="relative w-full h-screen bg-cover bg-center"
-      style={{ 
-        backgroundImage: `url(${DiningBanner || 'https://via.placeholder.com/1700x400'})`
+      style={{
+        backgroundImage: `url(${DessertBanner || "https://via.placeholder.com/1700x400"})`,
       }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 md:px-24 text-white text-center">
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-          Desserts <br />
-          <span className="text-green-500">Delights</span>
+        <h1 className="text-4xl md:text-6xl font-bold leading-tight font-serif text-white">
+          Desserts
         </h1>
-        <p className="mt-4 max-w-lg text-base md:text-lg">
+        <p className="mt-4 max-w-lg text-base md:text-lg font-sans text-gray-200">
           Indulge in decadent desserts crafted to satisfy your sweet tooth. Perfect for any occasion or treat.
         </p>
         <div className="mt-8 flex space-x-4">
-          <button className="px-6 py-3 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition duration-300">
+          <a
+            href="https://wa.me/+YOUR_PHONE_NUMBER?text=Hi%20Maison%20Ember,%20I'd%20like%20to%20order%20a%20dessert!"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-[#E55D3A] text-white font-semibold rounded-md hover:bg-[#c94b2f] transition duration-300 font-sans"
+          >
             Browse Desserts
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const CulinaryHero = () => {
-  return (
-    <div
-      className="relative w-full h-screen bg-cover bg-center"
-      style={{ backgroundImage: 'url(https://i.imgur.com/4f1450.jpg)' }}
-    >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative z-10 flex flex-col items-start justify-center h-full px-6 md:px-24 text-white">
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-          Culinary Excellence <br />
-          <span className="text-orange-500">Awaits You</span>
-        </h1>
-        <p className="mt-4 max-w-lg text-base md:text-lg">
-          Experience our chef's masterpieces across diverse cuisines. From signature specialties to comfort classics, every dish tells a story of passion and perfection.
-        </p>
-        <div className="mt-8 flex space-x-4">
-          <button className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition duration-300">
-            View Our Menu
-          </button>
-          <button className="px-6 py-3 border border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition duration-300">
-            Make Reservation
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -222,175 +41,142 @@ const CulinaryHero = () => {
 
 const MenuCard = ({ item }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
       <div className="relative">
-        <img src={item.image} alt={item.name} className="w-full h-64 object-cover" />
+        <img
+          src={item.image_url || "https://via.placeholder.com/150?text=No+Image"}
+          alt={item.name}
+          className="w-full h-64 object-cover"
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/150?text=No+Image";
+            console.error(`Failed to load image: ${item.image_url}`);
+          }}
+        />
         {item.popular && (
-          <div className="absolute top-2 left-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+          <div className="absolute top-2 left-2 bg-[#E55D3A] text-white text-xs font-semibold px-2 py-1 rounded-full">
             Popular
           </div>
         )}
         <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-sm font-bold px-3 py-1 rounded-full">
-          ${item.price.toFixed(2)}
+          ₹{new Intl.NumberFormat("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(item.price)}
         </div>
       </div>
       <div className="p-6">
-        <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
-        <p className="mt-2 text-gray-600 text-sm">{item.description}</p>
-        <p className="mt-4 text-xs text-gray-500">{item.chef}</p>
-        <button className="mt-6 w-full py-3 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition duration-300">
+        <h3 className="text-xl font-semibold text-gray-800 font-sans">{item.name}</h3>
+        <p className="mt-2 text-gray-600 text-sm font-sans">{item.description || "No description available"}</p>
+        <p className="mt-4 text-xs text-gray-500 font-sans">{item.chef || "N/A"}</p>
+        <a
+          href={`https://wa.me/+YOUR_PHONE_NUMBER?text=Hi%20Maison%20Ember,%20I'd%20like%20to%20order%20${encodeURIComponent(item.name)}!`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 w-full py-3 bg-[#E55D3A] text-white font-semibold rounded-md hover:bg-[#c94b2f] transition duration-300 font-sans block text-center"
+        >
           Order Now
-        </button>
+        </a>
       </div>
     </div>
   );
 };
 
-const TabbedMenu = () => {
-  const [activeTab, setActiveTab] = useState('Beverages');
-
-  const tabs = [
-    { name: 'Beverages', items: beveragesItems },
-    { name: 'Desserts', items: dessertsItems },
-  ];
-
+const CakesAndPastries = ({ items }) => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Dessert Menu</h2>
-        <p className="mt-2 text-gray-600">Explore our delightful selection of sweet treats designed to bring joy to every bite</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Cakes & Pastries</h2>
+        <p className="mt-2 text-gray-600 font-sans">Delicate and delightful baked treats</p>
       </div>
-      <div className="flex justify-center mb-8 border-b border-gray-300">
-        {tabs.map((tab) => (
-          <button
-            key={tab.name}
-            onClick={() => setActiveTab(tab.name)}
-            className={`py-2 px-4 text-lg font-semibold transition duration-300 ${activeTab === tab.name ? 'border-b-2 border-green-500 text-green-500' : 'text-gray-600 hover:text-green-500'}`}
-          >
-            {tab.name}
-          </button>
-        ))}
-      </div>
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">{activeTab}</h2>
-      </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {tabs.find((tab) => tab.name === activeTab).items.map((item, index) => (
-          <MenuCard key={index} item={item} />
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-center text-gray-600 font-sans">No items available in this category</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const CakesAndPastries = () => {
+const IceCreamsAndSorbets = ({ items }) => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Cakes & Pastries</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Ice Creams & Sorbets</h2>
+        <p className="mt-2 text-gray-600 font-sans">Cool and creamy indulgences</p>
       </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {menuItems.map((item, index) => (
-          <MenuCard key={index} item={item} />
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-center text-gray-600 font-sans">No items available in this category</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const IceCreamsAndSorbets = () => {
+const PuddingsAndCustards = ({ items }) => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Ice Creams & Sorbets</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Puddings & Custards</h2>
+        <p className="mt-2 text-gray-600 font-sans">Rich and comforting desserts</p>
       </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {friedChickenItems.map((item, index) => (
-          <MenuCard key={index} item={item} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const PuddingsAndCustards = () => {
-  return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Puddings & Custards</h2>
-      </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {sidesItems.map((item, index) => (
-          <MenuCard key={index} item={item} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const MenuSection = () => {
-  return (
-    <div className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Our Dessert Categories</h2>
-        <p className="mt-2 text-gray-600">
-          Explore our delightful selection of sweet treats designed to bring joy to every bite
-        </p>
-      </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {menuCategories.map((item, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="relative">
-              <img src={item.image} alt={item.category} className="w-full h-64 object-cover" />
-              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                {item.dishes} dishes
-              </div>
-              <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white text-sm font-semibold px-2 py-1 rounded-full">
-                {item.priceRange}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800">{item.category}</h3>
-              <p className="mt-2 text-gray-600">{item.description}</p>
-              <a
-                href="#"
-                className="mt-4 inline-flex items-center text-orange-500 hover:text-orange-600 transition duration-300"
-              >
-                View Menu
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ml-2 h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <p className="text-center text-gray-600 font-sans">No items available in this category</p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 const WhyChooseDesserts = () => {
+  const services = [
+    {
+      title: "Artisanal Craftsmanship",
+      description: "Handcrafted desserts made with premium ingredients",
+      icon: "⚡",
+    },
+    {
+      title: "Sweet Variety",
+      description: "Options for every craving, from creamy to fruity",
+      icon: "💰",
+    },
+    {
+      title: "Perfect for Sharing",
+      description: "Ideal for gatherings, celebrations, or solo indulgence",
+      icon: "🛡️",
+    },
+    {
+      title: "Quick Treats",
+      description: "Fast delivery to satisfy your sweet tooth in no time",
+      icon: "📱",
+    },
+  ];
+
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Why Choose Our Desserts?</h2>
-        <p className="mt-2 text-gray-600">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 font-serif">Why Choose Our Desserts?</h2>
+        <p className="mt-2 text-gray-600 font-sans">
           Experience the joy of artisanal sweets with every indulgent bite
         </p>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
-            <div key={index} className="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-sm">
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 text-3xl">
-                {service.icon === '⚡' && (
+            <div key={index} className="flex flex-col items-center p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#E55D3A]/10 text-[#E55D3A] text-3xl">
+                {service.icon === "⚡" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-green-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -399,10 +185,10 @@ const WhyChooseDesserts = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 )}
-                {service.icon === '💰' && (
+                {service.icon === "💰" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-green-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -415,10 +201,10 @@ const WhyChooseDesserts = () => {
                     />
                   </svg>
                 )}
-                {service.icon === '🛡️' && (
+                {service.icon === "🛡️" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-green-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -431,10 +217,10 @@ const WhyChooseDesserts = () => {
                     />
                   </svg>
                 )}
-                {service.icon === '📱' && (
+                {service.icon === "📱" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-green-500"
+                    className="h-8 w-8 text-[#E55D3A]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -448,8 +234,8 @@ const WhyChooseDesserts = () => {
                   </svg>
                 )}
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-gray-800">{service.title}</h3>
-              <p className="mt-2 text-gray-600 text-center">{service.description}</p>
+              <h3 className="mt-4 text-xl font-semibold text-gray-800 font-sans">{service.title}</h3>
+              <p className="mt-2 text-gray-600 text-center font-sans">{service.description}</p>
             </div>
           ))}
         </div>
@@ -460,37 +246,86 @@ const WhyChooseDesserts = () => {
 
 const CallToAction = () => {
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto text-center p-8 rounded-lg shadow-md bg-green-50">
-        <h2 className="text-3xl font-bold text-gray-800">Craving Something Sweet?</h2>
-        <p className="mt-4 text-gray-600">
+    <div className="bg-[#fcf8f3] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto text-center p-8 rounded-lg shadow-sm bg-white border border-gray-100">
+        <h2 className="text-3xl font-bold text-gray-800 font-serif">Craving Something Sweet?</h2>
+        <p className="mt-4 text-gray-600 font-sans">
           Order from our dessert collection and enjoy indulgent treats delivered to your door!
         </p>
-        <button className="mt-6 px-8 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300">
+        <a
+          href="https://wa.me/+YOUR_PHONE_NUMBER?text=Hi%20Maison%20Ember,%20I'd%20like%20to%20order%20a%20dessert!"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 px-8 py-3 bg-[#E55D3A] text-white font-semibold rounded-md hover:bg-[#c94b2f] transition duration-300 font-sans inline-block"
+        >
           Order Now
-        </button>
+        </a>
       </div>
     </div>
   );
 };
 
-const App = () => {
+const Desserts = () => {
+  const [cakesAndPastriesItems, setCakesAndPastriesItems] = useState([]);
+  const [iceCreamsAndSorbetsItems, setIceCreamsAndSorbetsItems] = useState([]);
+  const [puddingsAndCustardsItems, setPuddingsAndCustardsItems] = useState([]);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchMenuItems = async () => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const res = await fetch("http://localhost/food_and_restaurant/get_menu_items.php?category_id=5", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) throw new Error(`Network response was not ok: ${res.status}`);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) {
+        setCakesAndPastriesItems(data.data.filter(item => item.sub_category_id === SUBCATEGORY_IDS.CAKES_PASTRIES || item.sub_category_id === "13"));
+        setIceCreamsAndSorbetsItems(data.data.filter(item => item.sub_category_id === SUBCATEGORY_IDS.ICE_CREAMS_SORBETS || item.sub_category_id === "14"));
+        setPuddingsAndCustardsItems(data.data.filter(item => item.sub_category_id === SUBCATEGORY_IDS.PUDDINGS_CUSTARDS || item.sub_category_id === "15"));
+      } else {
+        setError(data.message || "⚠️ Could not fetch menu items.");
+        setCakesAndPastriesItems([]);
+        setIceCreamsAndSorbetsItems([]);
+        setPuddingsAndCustardsItems([]);
+      }
+    } catch (e) {
+      setError("⚠️ Could not fetch menu items: " + e.message);
+      setCakesAndPastriesItems([]);
+      setIceCreamsAndSorbetsItems([]);
+      setPuddingsAndCustardsItems([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
+
   return (
-    <div>
+    <div className="bg-[#fcf8f3]">
+      {error && (
+        <div className="mb-6 p-4 rounded-lg bg-red-200 text-red-800 border-2 border-red-400 font-medium text-center font-sans">
+          {error}
+        </div>
+      )}
+      {isLoading && (
+        <div className="text-center py-12">
+          <p className="text-gray-600 font-sans">Loading desserts...</p>
+        </div>
+      )}
       <FastFoodHero />
-      <CakesAndPastries />
-      <IceCreamsAndSorbets />
-      <PuddingsAndCustards />
-      {/* <TabbedMenu /> */}
+      <CakesAndPastries items={cakesAndPastriesItems} />
+      <IceCreamsAndSorbets items={iceCreamsAndSorbetsItems} />
+      <PuddingsAndCustards items={puddingsAndCustardsItems} />
       <WhyChooseDesserts />
       <CallToAction />
-      <style jsx>{`
-        html, body {
-          scroll-behavior: smooth;
-        }
-      `}</style>
     </div>
   );
 };
 
-export default App;
+export default Desserts;
