@@ -48,4 +48,60 @@ CREATE TABLE IF NOT EXISTS menu_items (
 );
 
 
+-- Insert predefined categories
+INSERT INTO categories (id, name, description, priority) VALUES
+(1, 'Fast Food', 'Quick and delicious comfort food', 1),
+(2, 'Starters', 'Appetizers to kick off your meal', 2),
+(3, 'Mains', 'Hearty main course dishes', 3),
+(4, 'Beverages', 'Refreshing drinks and beverages', 4),
+(5, 'Desserts', 'Sweet treats to end your meal', 5),
+(6, 'Cafés & Bakery', 'Artisan coffee, pastries, and light meals', 6),
+(7, 'Casual Dining', 'Relaxed dining with a variety of dishes', 7);
+
+-- Insert predefined subcategories
+INSERT INTO sub_categories (id, category_id, name, description, priority) VALUES
+(1, 1, 'Burgers & Sandwiches', 'Classic burgers and sandwiches', 1),
+(2, 1, 'Fried Chicken', 'Crispy fried chicken dishes', 2),
+(3, 1, 'Sides', 'Side dishes and snacks', 3),
+(4, 2, 'Appetizers', 'Small bites to start', 1),
+(5, 2, 'Soups', 'Warm and comforting soups', 2),
+(6, 2, 'Salads', 'Fresh and crisp salads', 3),
+(7, 3, 'Seafood', 'Fresh seafood dishes', 1),
+(8, 3, 'Meat Dishes', 'Savory meat-based mains', 2),
+(9, 3, 'Vegetarian Dishes', 'Flavorful vegetarian options', 3),
+(10, 4, 'Coffees & Teas', 'Hot and cold brews', 1),
+(11, 4, 'Juices & Smoothies', 'Fresh and fruity drinks', 2),
+(12, 4, 'Sodas & Specialty Drinks', 'Unique beverages', 3),
+(13, 5, 'Cakes & Pastries', 'Sweet baked goods', 1),
+(14, 5, 'Ice Creams & Sorbets', 'Cool and creamy treats', 2),
+(15, 5, 'Puddings & Custards', 'Rich and smooth desserts', 3),
+(16, 6, 'Artisan Coffee & Beverages', 'Specialty coffee and drinks', 1),
+(17, 6, 'Fresh Baked Pastries', 'Freshly baked goods', 2),
+(18, 6, 'Light Meals & Sandwiches', 'Quick and light meals', 3),
+(19, 7, 'Appetizers & Starters', 'Tasty starters for casual dining', 1),
+(20, 7, 'Main Courses', 'Satisfying main dishes', 2),
+(21, 7, 'Pasta & Risotto', 'Classic pasta and risotto dishes', 3);
+
+
+
+
+CREATE TABLE gallery_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image_url VARCHAR(255) NOT NULL,
+    category ENUM('all', 'signature_dishes', 'restaurant', 'kitchen', 'events') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+CREATE TABLE chefs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    specialty VARCHAR(100) NOT NULL,
+    achievements TEXT,
+    experience TEXT,
+    image_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
